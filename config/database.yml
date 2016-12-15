@@ -1,0 +1,26 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: bitbond_development
+  username: adrianfernandez
+  password: 
+  host: localhost
+  port: 5432
+
+test:
+  <<: *default
+  database: bitbond_test
+  username: adrianfernandez
+  password: 
+  host: localhost
+  port: 5432
+
+production:
+  <<: *default
+  database: bitbond_production
+  username: bitbond
+  password: <%= ENV['ESAVING_DATABASE_PASSWORD'] %>
