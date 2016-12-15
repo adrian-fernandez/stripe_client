@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     resources :accounts, only: [:index] do
       collection do
         get :connect_stripe
+        get :callback
       end
     end
   end

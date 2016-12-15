@@ -11,4 +11,8 @@ class Users::AccountsController < ApplicationController
     redirect_to account.authorize_url
   end
 
+  def callback
+
+  end
+
 end
