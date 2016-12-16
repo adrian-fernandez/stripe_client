@@ -7,7 +7,7 @@ class Admin::UsersController < ApplicationController
 
   def balance
     if params[:update].present?
-      @user.set_balance!(StripeApi.get_balance.to_json)
+      @user.set_balance!(StripeApi.get_balance)
     end
   end
 
