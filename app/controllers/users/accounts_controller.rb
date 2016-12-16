@@ -21,7 +21,7 @@ class Users::AccountsController < ApplicationController
         flash[:message] = "Account connected!"
       rescue Exception => e
         flash[:message] = "ERROR: #{e.message}"
-        flash[:message] = "ERROR: #{account_info.params.inspect}"
+        flash[:message] = "ERROR: #{e.message} --- #{account_info.params.inspect}"
       end
     else
       flash[:message] = "Error: #{params[:error_description]}"
