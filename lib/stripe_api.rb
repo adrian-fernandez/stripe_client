@@ -53,5 +53,4 @@ module StripeApi
   def self.request_params
     { scope: 'read_only' }
   end
-
 end
