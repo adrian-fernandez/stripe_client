@@ -1,0 +1,11 @@
+<h1>Admin page</h1>
+<hr/>
+<div>
+<strong>Connected accounts: <%= @users_with_stripe.count %></strong>
+</div>
+
+<ul>
+  <% @users_with_stripe.each do |user| %>
+    <li><%= user.name %> (<%= link_to_details(user) %> | <%= link_to_balance(user) %>) </li>
+  <% end %>
+</ul>

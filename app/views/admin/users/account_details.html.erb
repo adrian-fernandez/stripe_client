@@ -1,0 +1,11 @@
+<% content_for :title do %> 
+  Account details of user: <%= @user.name %>
+<% end %>
+
+<% @user.stripe_info.each do |key, value| %>
+  <li><strong><%= key %></strong>: <%= value %></li>
+<% end %>
+
+<% content_for :footer do %> 
+  <%= link_to 'Back', admin_users_path %>
+<% end %>

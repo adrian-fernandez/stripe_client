@@ -1,0 +1,9 @@
+<h1>User page</h1>
+<hr/>
+<%= flash_messages %>
+
+<% if current_user.stripe_account_connected? %>
+  <%= link_to 'Disconnect', disconnect_stripe_users_accounts_path %>
+<% else %>
+  <%= link_to image_tag('blue-on-light.png'), connect_stripe_users_accounts_path %>
+<% end %>
