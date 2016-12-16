@@ -9,7 +9,7 @@ module StripeApi
 
   def self.request_access_token(code)
     StripeApi.connect
-    StripeApi.config[:client].auth_code.get_token(code, StripeApi.request_params).to_s
+    StripeApi.config[:client].auth_code.get_token(code, StripeApi.request_params)
   end
 
   def self.get_balance
