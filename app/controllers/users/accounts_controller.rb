@@ -17,11 +17,11 @@ class Users::AccountsController < ApplicationController
     if auth_successful?
       begin
         account_info = StripeApi.request_access_token(params[:code])
-        current_user.set_stripe_info!(account_info.params)
+        current_user.set_stripe_info!(account_info)
         flash[:message] = "Account connected!"
       rescue Exception => e
         flash[:message] = "ERROR: #{e.message}"
-        flash[:message] = "ERROR: #{e.message} --- #{account_info.params.inspect}"
+        flash[:message] = "ERROR: #{e.message} --- #{account_info.inspect}"
       end
     else
       flash[:message] = "Error: #{params[:error_description]}"
