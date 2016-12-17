@@ -54,6 +54,15 @@ Rails.application.routes.draw do
         get :balance
       end
     end
+
+    resources :imports, only: [] do
+      collection do
+        get :download
+      end
+      member do
+        get :view
+      end
+    end
   end
 
   namespace :users do

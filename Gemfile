@@ -47,3 +47,5 @@ end
 
 gem 'stripe'
 gem 'oauth2'
+gem 'sidekiq'
+gem 'kaminari'

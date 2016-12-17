@@ -1,0 +1,18 @@
+<% content_for :title do %> 
+  Showing: <%= imported_type_str(@import.imported_type) %>
+<% end %>
+
+<% content_for :subtitle do %> 
+  Last updated: <%= l(@import.updated_at) %>
+<% end %>
+
+<ul>
+  <% @elements.each do |elem| %>
+    <li><%= show_elem_line(elem, @import.imported_type) %></li>
+  <% end %>
+  <%= paginate @elements %>
+</ul>
+
+<% content_for :footer do %> 
+  <%= link_to 'Back', admin_users_path %>
+<% end %>

@@ -49,6 +49,7 @@ GEM
       execjs
     coffee-script-source (1.11.1)
     concurrent-ruby (1.0.2)
+    connection_pool (2.2.1)
     debug_inspector (0.0.2)
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
@@ -70,6 +71,9 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.3)
     jwt (1.5.6)
+    kaminari (0.17.0)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -93,6 +97,8 @@ GEM
       rack (>= 1.2, < 3)
     pg (0.19.0)
     rack (1.6.5)
+    rack-protection (1.5.3)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.7)
@@ -121,6 +127,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (12.0.0)
     rdoc (4.3.0)
+    redis (3.3.2)
     rest-client (2.0.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
@@ -135,6 +142,11 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sidekiq (4.2.7)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
+      redis (~> 3.2, >= 3.2.1)
     spring (2.0.0)
       activesupport (>= 4.2)
     sprockets (3.7.0)
@@ -173,11 +185,13 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   jbuilder (~> 2.0)
   jquery-rails
+  kaminari
   oauth2
   pg
   rails (= 4.2.7)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  sidekiq
   spring
   stripe
   turbolinks
