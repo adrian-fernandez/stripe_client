@@ -57,8 +57,8 @@ module StripeConnectable
 
   def stripe_connect
     stripe_load_config
-    _stripe_config[:client] ||= OAuth2::Client.new(ENV.fetch('stripe_api_key'),
-                                                   ENV.fetch('stripe_client_id'),
+    _stripe_config[:client] ||= OAuth2::Client.new(ENV.fetch('stripe_client_id'),
+                                                   ENV.fetch('stripe_api_key'),
                                                    stripe_config[:options])
   end
 
