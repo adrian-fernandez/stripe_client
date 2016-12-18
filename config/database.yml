@@ -23,4 +23,4 @@ production:
   <<: *default
   database: bitbond_production
   username: bitbond
-  password: <%= ENV['ESAVING_DATABASE_PASSWORD'] %>
+  password: <%= ENV['BITBOND_DATABASE_PASSWORD'] %>
