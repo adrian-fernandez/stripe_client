@@ -28,7 +28,8 @@ module QueryResultByYear
            AVG(CAST(data ->> 'amount_refunded' AS integer)) AS total_refunded
       FROM charges
       WHERE user_id = #{user_id}
-          AND CAST(data ->> 'year' AS integer) = #{year}
+            AND CAST(data ->> 'year' AS integer) = #{year}
+            AND data ->> 'paid' = 'true'
       GROUP BY month, year
       ORDER BY month
     }.gsub(/\s+/, " ").strip
@@ -56,7 +57,7 @@ module QueryResultByYear
            AVG(CAST(data ->> 'amount_reversed' AS integer)) AS total_reversed
       FROM transfers
       WHERE user_id = #{user_id}
-          AND CAST(data ->> 'year' AS integer) = #{year}
+            AND CAST(data ->> 'year' AS integer) = #{year}
       GROUP BY month, year
       ORDER BY month
     }.gsub(/\s+/, " ").strip

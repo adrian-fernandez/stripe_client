@@ -50,18 +50,32 @@ module ImportsHelper
 
   def chart(container, data, field, field_correction_factor, title, label, legend, sufix)
     chart_data = []
-    data[:years].each do |year|
-      chart_data << (1..12).map{|month| (data.fetch(month, {}).fetch(year, {}).fetch(field, 0.0).to_f / field_correction_factor)}.join(',')
-    end
-
     series = []
-    i = 0
-    chart_data.each do |year_data|
-      series << "{ name: '#{legend} #{data[:years][i]}', data: [#{year_data}] }"
-      i += 1
+    data_years = data.fetch(:years, [DateTime.now.year])
+
+    data_years.each do |year|
+      field.map do |f|
+        if data.fetch(:years, nil).nil?
+          chart_data << (1..12).map{|month| (data.fetch(month, {}).fetch(f, 0.0).to_f / field_correction_factor)}.join(',')
+        else
+          chart_data << (1..12).map{|month| (data.fetch(month, {}).fetch(year, {}).fetch(f, 0.0).to_f / field_correction_factor)}.join(',')
+        end
+      end
     end
 
-    "Highcharts.chart('#{container}', {"\
+    i = 0
+    aux = 0
+    chart_data.each do |year_data|
+      series << "{ name: '#{legend[aux]} #{data_years[i]}', data: [#{year_data}] }"
+      aux += 1
+
+      if aux == field.count
+        i += 1 
+        aux = 0
+      end
+    end
+
+    "$(function () { Highcharts.chart('#{container}', {"\
       "title: {"\
           "text: '#{title}',"\
           "x: -20"\
@@ -90,6 +104,6 @@ module ImportsHelper
               "borderWidth: 0"\
           "},"\
           "series: [#{series.join(',').html_safe}]"\
-      "});".html_safe
+      "})});".html_safe
   end
 end

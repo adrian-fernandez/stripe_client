@@ -29,6 +29,8 @@ class Import < ActiveRecord::Base
   def clean_elements!
     elements.destroy_all
     set_last_id!('')
+    set_total_count!(0)
+    set_imported_count!(0, true)
   end
 
   def self.data_downloaded_for?(type, user_id)
@@ -57,11 +59,15 @@ class Import < ActiveRecord::Base
     update_attribute(:total_count, value)
   end
 
-  def set_imported_count!(value)
+  def set_imported_count!(value, force=false)
     return if value.blank?
     return if value.class != Fixnum
 
-    update_attribute(:imported_count, imported_count + value)
+    if force
+      update_attribute(:imported_count, value)
+    else
+      update_attribute(:imported_count, imported_count + value)
+    end
   end
 
   def set_last_id!(value)
@@ -129,7 +135,7 @@ class Import < ActiveRecord::Base
                      ].freeze
 
   FIELDS_FOR = {
-    charges: ['id', 'amount', 'amount_refunded', 'created'],
+    charges: ['id', 'amount', 'amount_refunded', 'created', 'paid'],
     transfers: ['id', 'amount', 'amount_reversed', 'created'],
     disputes: ['id', 'amount', 'charge', 'created'],
     refunds: ['id', 'amount', 'charge', 'status'],

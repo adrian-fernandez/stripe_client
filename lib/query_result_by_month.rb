@@ -98,6 +98,7 @@ module QueryResultByMonth
              SUM(CAST(data ->> 'amount_refunded' AS integer)) AS total_refunded
       FROM charges
       WHERE user_id = #{user_id}
+            AND data ->> 'paid' = 'true'
       GROUP BY month, year
       ORDER BY year, month
     }.gsub(/\s+/, " ").strip

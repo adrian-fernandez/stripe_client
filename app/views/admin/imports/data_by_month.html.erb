@@ -76,8 +76,6 @@
 
 <div id="chart-container1" style="min-width: 150px; height: 200px; margin: 0 auto"></div>
 <div id="chart-container2" style="min-width: 150px; height: 200px; margin: 0 auto"></div>
-<div id="chart-container3" style="min-width: 150px; height: 200px; margin: 0 auto"></div>
-<div id="chart-container4" style="min-width: 150px; height: 200px; margin: 0 auto"></div>
 
 <% content_for :footer do %> 
   <%= link_to 'Back', admin_users_path %>
@@ -90,15 +88,10 @@
 
     for (i=0; i<years.length; i++){
       visible_year = years[i];
-      console.log(visible_year);
       $(".hideable[data-year=" + visible_year+"]").show();
     }
   });
 
-  $(function () {
-    <%= chart('chart-container1', @data, :num_charges, 1, 'Year charges', 'Num', 'Num charges of year', '') %>
-    <%= chart('chart-container2', @data, :num_transfers, 1, 'Year transfers', 'Num', 'Num transfers of year', '') %>
-    <%= chart('chart-container3', @data, :total_amount, 100, 'Year charges amount', 'Num', 'Charge amount of year', '€') %>
-    <%= chart('chart-container4', @data, :total_transfers, 100, 'Year transfers amount', 'Num', 'Transfered amount of year', '€') %>
-  });
+  <%= chart('chart-container1', @data, [:num_charges, :num_transfers], 1, 'Year charges & transfers', 'Num', ['Num charges', 'Num transfers'], '') %>
+  <%= chart('chart-container2', @data, [:total_amount, :total_transfers], 100, 'Year charges & transfers amount', 'Num', ['Amount charges', 'Amount transfers'], '') %>
 </script>
