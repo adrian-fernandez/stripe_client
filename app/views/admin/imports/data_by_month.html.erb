@@ -1,0 +1,92 @@
+<% content_for :title do %> 
+  Statistics per month
+<% end %>
+
+<% if @data.nil? %>
+  There are no data available, please download charges.
+<% else %>
+  <%= check_charges_and_transfers_msg %>
+
+  <%= label_tag :display_years, 'Display years' %>
+  <div>
+    <%= select_tag :display_years, options_for_select(@data[:years], @data[:years]), multiple: true %>
+    <%= button_tag 'Refresh', id: 'update_table' %>
+  </div>
+
+  <br/>
+
+  <table border=1>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Charges</th>
+        <th>Transfers</th>
+        <% @data[:years].each do |year| %>
+          <th data-year='<%=year%>' class='hideable'><%= year %> Charges</th>
+          <th data-year='<%=year%>' class='hideable'><%= year %> Transfers</th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% (1..12).each do |month| %>
+        <tr data-month='<%=month%>'>
+          <th><%= Date::MONTHNAMES[month] %></th>
+          <td>
+            <%= @data.has_key?(month) ? @data[month].fetch(:num_charges, 0) : 0 %>
+            /
+            <%= display_amount(@data.has_key?(month) ? @data[month].fetch(:total_amount, 0) : 0) %>
+          </td>
+
+          <td>
+            <%= @data.has_key?(month) ? @data[month].fetch(:num_transfers, 0) : 0 %>
+            /
+            <%= display_amount(@data.has_key?(month) ? @data[month].fetch(:total_transfers, 0) : 0) %>
+          </td>
+
+          <% @data[:years].each do |year| %>
+            <% num_charges = @data.fetch(month, {}).fetch(year, {}).fetch(:num_charges, 0)
+               amount = @data.fetch(month, {}).fetch(year, {}).fetch(:total_amount, 0)
+               diff_charges = @data.fetch(month, {}).fetch(year, {}).fetch(:diff, {}).fetch(:num_charges, 0)
+               diff_amount = @data.fetch(month, {}).fetch(year, {}).fetch(:diff, {}).fetch(:total_amount, 0)
+               background = year.odd? ? "#CACACA" : "#F0F0F0" %>
+
+            <td data-month='<%=month%>' data-year='<%=year%>' class='js-charges hideable' style="background-color: <%= background %>">
+              <%= num_charges %>
+              /
+              <%= display_amount(amount) %> <%= "(#{diff_charges} / #{display_amount(diff_amount)})" if defined?(diff_amount) && year != @data[:years].first %>
+            </td>
+
+            <% num_transfers = @data.fetch(month, {}).fetch(year, {}).fetch(:num_transfers, 0)
+               amount = @data.fetch(month, {}).fetch(year, {}).fetch(:total_transfers, 0)
+               diff_transfers = @data.fetch(month, {}).fetch(year, {}).fetch(:diff, {}).fetch(:num_transfers, 0)
+               diff_amount = @data.fetch(month, {}).fetch(year, {}).fetch(:diff, {}).fetch(:total_transfers, 0) %>
+
+            <td data-month='<%=month%>' data-year='<%=year%>' class='js-transfers hideable' style="background-color: <%= background %>">
+              <%= num_transfers %>
+              /
+              <%= display_amount(amount) %> <%= "(#{diff_transfers} / #{display_amount(diff_amount)})" if defined?(diff_amount) && defined?(diff_transfers) && year != @data[:years].first %>
+            </td>
+          <% end %>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% content_for :footer do %> 
+  <%= link_to 'Back', admin_users_path %>
+<% end %>
+
+<script>
+  $("#update_table").on("click", function(){
+    $(".hideable").hide();
+    years = $("#display_years").val();
+
+    for (i=0; i<years.length; i++){
+      visible_year = years[i];
+      console.log(visible_year);
+      $(".hideable[data-year=" + visible_year+"]").show();
+    }
+  });
+</script>

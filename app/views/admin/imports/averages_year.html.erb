@@ -1,0 +1,67 @@
+<% content_for :title do %> 
+  Averages in last year
+<% end %>
+
+<% if @data.nil? %>
+  There are no data available, please download charges.
+<% else %>
+  <%= check_charges_and_transfers_msg %>
+  <br/>
+
+  <table border=1>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Num Charges</th>
+        <th>Avg Charges Amount</th>
+        <th>Num Transfers</th>
+        <th>Avg Transfers Amount</th>
+        <th>Volatility</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% (1..12).each do |month| %>
+        <tr data-month='<%=month%>'>
+          <th><%= Date::MONTHNAMES[month] %></th>
+          <td>
+            <%= @data.has_key?(month) ? @data[month].fetch(:num_charges, 0) : 0 %>
+          </td>
+
+          <td>
+            <%= display_amount(@data.has_key?(month) ? @data[month].fetch(:total_amount, 0) : 0) %>
+          </td>
+
+          <td>
+            <%= @data.has_key?(month) ? @data[month].fetch(:num_transfers, 0) : 0 %>
+          </td>
+
+          <td>
+            <%= display_amount(@data.has_key?(month) ? @data[month].fetch(:total_transfers, 0) : 0) %>
+          </td>
+
+          <td>
+            <%= number_to_percentage(@data.has_key?(month) ? @data[month].fetch(:volatility, 0) : 0, precision: 2) %>
+          </td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% content_for :footer do %> 
+  <%= link_to 'Back', admin_users_path %>
+<% end %>
+
+<script>
+  $("#update_table").on("click", function(){
+    $(".hideable").hide();
+    years = $("#display_years").val();
+
+    for (i=0; i<years.length; i++){
+      visible_year = years[i];
+      console.log(visible_year);
+      $(".hideable[data-year=" + visible_year+"]").show();
+    }
+  });
+</script>

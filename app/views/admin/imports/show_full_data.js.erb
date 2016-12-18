@@ -1,0 +1,5 @@
+$("#<%=@data['id']%>").html("<%= escape_javascript(render 'full_data', data: @data) %>");
+$("#<%=@data['id']%>").show();
+
+$("#action-btn-<%=@data['id']%> .link_hide_full_data").show();
+$("#action-btn-<%=@data['id']%> .link_full_data").hide();

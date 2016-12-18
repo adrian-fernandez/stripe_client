@@ -4,7 +4,7 @@ class Users::AccountsController < ApplicationController
   end
 
   def connect_stripe
-    redirect_to StripeApi.authorize_url
+    redirect_to current_user.stripe_authorize_url
   end
 
   def disconnect_stripe
@@ -16,7 +16,7 @@ class Users::AccountsController < ApplicationController
   def callback
     if auth_successful?
       begin
-        account_info = StripeApi.request_access_token(params[:code])
+        account_info = current_user.stripe_request_access_token(params[:code])
         current_user.set_stripe_info!(account_info)
         flash[:message] = "Account connected!"
       rescue Exception => e

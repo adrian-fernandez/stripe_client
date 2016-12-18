@@ -1,16 +1,23 @@
-<h1>Admin page</h1>
-<hr/>
+<% content_for :title do %> 
+  Admin page
+<% end %>
+
 <div>
 <strong>Connected accounts: <%= @users_with_stripe.count %></strong>
 </div>
 
 <ul>
   <% @users_with_stripe.each do |user| %>
-    <li><%= user.name %> (<%= link_to_details(user) %> | <%= link_to_balance(user) %>) </li>
+    <li><%= link_to_details(user) %></li>
+
+    <strong>Available data</strong>
+    <%= show_available_actions %>
+    <strong>Statistics</strong>
+    <%= show_available_statistics %>
+
   <% end %>
 </ul>
 
-<hr>
-
-<strong>Available data</strong>
-<%= show_available_actions %>
+<% content_for :footer do %> 
+  <%= link_to 'Switch to user mode', users_root_path %>
+<% end %>

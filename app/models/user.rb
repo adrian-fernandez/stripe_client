@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include StripeConnectable
+
   scope :with_stripe_account, -> { where.not(stripe_access_token: '') }
 
   def set_stripe_info!(data)

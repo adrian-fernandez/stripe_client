@@ -1,5 +1,5 @@
 <% content_for :title do %> 
-  Account details of user: <%= @user.name %>
+  User details: <%= @user.name %>
 <% end %>
 
 <% @user.stripe_info.each do |key, value| %>

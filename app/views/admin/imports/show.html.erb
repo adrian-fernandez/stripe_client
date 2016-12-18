@@ -1,0 +1,42 @@
+<% content_for :title do %> 
+  Showing: <%= imported_type_str(@import.imported_type) %>
+<% end %>
+
+<% content_for :subtitle do %> 
+  Last updated: <%= l(@import.updated_at) %>
+<% end %>
+
+<ul>
+  <% @elements.each do |elem| %>
+    <li>
+      <%= show_elem_line(elem, @import.imported_type) %>
+      <div id='<%= elem.data['id'] %>' style='display: none;'>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate @elements %>
+</ul>
+
+<% content_for :footer do %> 
+  <%= link_to 'Back', admin_users_path %>
+<% end %>
+
+<script>
+  $('.link_full_data').bind('ajax:beforeSend', function() {
+    div = $(this).data('div')
+    $('#' + div).html("<%= escape_javascript(image_tag('spinner.gif', width: 25)) %>");
+    $('#' + div).show();
+  });
+
+  $(".link_hide_full_data").on('click', function(e){
+    e.preventDefault();
+    div = $(this).data('div')
+    $('#' + div).html('');
+    $('#' + div).hide();
+
+    $('#action-btn-' + div + ' .link_hide_full_data').hide();
+    $('#action-btn-' + div + ' .link_full_data').show();
+    e.stopPropagation();
+    return false;
+  });
+</script>

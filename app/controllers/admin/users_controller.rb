@@ -1,17 +1,11 @@
 class Admin::UsersController < ApplicationController
-  before_action :set_user, only: [:balance, :account_details]
+  before_action :set_user, only: [:balance, :show]
 
   def index
     @users_with_stripe = User.with_stripe_account
   end
 
-  def balance
-    if params[:update].present?
-      @user.set_balance!(StripeApi.get_balance)
-    end
-  end
-
-  def account_details
+  def show
   end
 
   private

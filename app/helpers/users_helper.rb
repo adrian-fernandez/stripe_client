@@ -1,21 +1,17 @@
 module UsersHelper
   def link_to_details(user)
-    link_to 'details', account_details_admin_user_path(user)
-  end
-
-  def link_to_balance(user)
-    link_to 'balance', balance_admin_user_path(user)
+    link_to user.name, admin_user_path(user)
   end
 
   def show_available_actions
-    available_actions = Import::IMPORTED_TYPE.keys.map do |x|
+    available_actions = Import.available_imported_types.map do |x|
       x.to_s.capitalize
     end
     last_imports = Import.get_last_imports
 
     content_tag(:ul) do
       available_actions.each do |action|
-        action_int_value = Import::IMPORTED_TYPE[action.downcase.to_sym]
+        action_int_value = Import.imported_type_value_for?(action.downcase.to_sym)
         concat(
           content_tag(:li) do
             action
@@ -45,7 +41,7 @@ module UsersHelper
                       'Status: '
                     end
                   )
-                  concat(Import::STATUS.key(last_imports[action_int_value].fetch(:status)))
+                  concat(Import.get_status_from_value(last_imports[action_int_value].fetch(:status)))
                 end
               )
               concat(
@@ -55,26 +51,45 @@ module UsersHelper
                       'Summary: '
                     end
                   )
-                  concat(last_imports[action_int_value].fetch(:total_count).to_s + ' records')
+                  concat("#{last_imports[action_int_value].fetch(:imported_count).to_s}/#{last_imports[action_int_value].fetch(:total_count).to_s} records")
                 end
               )
-              if last_imports[action_int_value].fetch(:status) == Import::STATUS[:done]
+              if last_imports[action_int_value].fetch(:status) == Import.status_value_for?(:done)
                 concat(
                   content_tag(:li) do
-                    link_to('View', view_admin_import_path(last_import_id))
+                    link_to('View', admin_import_path(last_import_id))
                   end
                 )
               end
             end
             concat(
               content_tag(:li) do
-                link_to('Download', download_admin_imports_path(type: action.downcase))
+                link_to('Download new items', download_admin_imports_path(type: action.downcase))
+              end
+            )
+            concat(
+              content_tag(:li) do
+                link_to('Download all', download_all_admin_imports_path(type: action.downcase))
               end
             )
           end
         )
       end
     end.html_safe
+  end
 
+  def show_available_statistics
+    content_tag(:ul) do
+      concat(
+        content_tag(:li) do
+          link_to('Per month', data_by_month_admin_imports_path)
+        end
+      )
+      concat(
+        content_tag(:li) do
+          link_to('Averages in last year', averages_year_admin_imports_path)
+        end
+      )
+    end
   end
 end

@@ -1,9 +1,15 @@
-<h1>User page</h1>
-<hr/>
+<% content_for :title do %> 
+  User page
+<% end %>
+
 <%= flash_messages %>
 
 <% if current_user.stripe_account_connected? %>
   <%= link_to 'Disconnect', disconnect_stripe_users_accounts_path %>
 <% else %>
   <%= link_to image_tag('blue-on-light.png'), connect_stripe_users_accounts_path %>
+<% end %>
+
+<% content_for :footer do %> 
+  <%= link_to 'Switch to admin mode', admin_root_path %>
 <% end %>
