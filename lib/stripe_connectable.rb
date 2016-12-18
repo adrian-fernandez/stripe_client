@@ -48,9 +48,6 @@ module StripeConnectable
   end
 
   def stripe_load_config
-    template = ERB.new File.new(File.expand_path('../../config/stripe.yml', __FILE__)).read
-    yaml_config = YAML.load template.result(s)
-
     self._stripe_config ||= {}
     self._stripe_config[:options] = { site: 'https://connect.stripe.com',
                                       authorize_url: '/oauth/authorize',
