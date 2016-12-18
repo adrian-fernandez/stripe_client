@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   include StripeConnectable
+  has_many :imports
 
   scope :with_stripe_account, -> { where.not(stripe_access_token: '') }
 
@@ -15,11 +16,5 @@ class User < ActiveRecord::Base
 
   def stripe_account_connected?
     !stripe_access_token.blank?
-  end
-
-  def set_balance!(data)
-    update_attribute(:balance, data.to_json)
-    update_attribute(:balance_updated_at, Time.zone.now)
-    true
   end
 end

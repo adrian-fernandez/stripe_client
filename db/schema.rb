@@ -16,14 +16,6 @@ ActiveRecord::Schema.define(version: 20161217174949) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "accounts", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "import_id",               null: false
-    t.integer  "user_id",                 null: false
-    t.jsonb    "data",       default: {}, null: false
-  end
-
   create_table "bankaccounts", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -113,7 +105,6 @@ ActiveRecord::Schema.define(version: 20161217174949) do
     t.string   "name"
     t.string   "stripe_access_token", default: ""
     t.json     "stripe_info",         default: {}
-    t.json     "balance",             default: {}
     t.datetime "balance_updated_at"
   end
 

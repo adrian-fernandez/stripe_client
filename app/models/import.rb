@@ -1,5 +1,6 @@
 class Import < ActiveRecord::Base
   before_destroy :destroy_elements
+  belongs_to :user
 
   def self.get_last_imports
     # imports = Import.select("distinct FIRST_VALUE(imported_type) OVER(PARTITION BY imported_type ORDER BY id DESC) as imported_type")
@@ -121,7 +122,7 @@ class Import < ActiveRecord::Base
                     orders: 6,
                     returns: 7,
                     subscriptions: 8,
-                    creditcardaccounts: 10}.freeze
+                    creditcardaccounts: 9}.freeze
 
   DISABLED_OBJECTS = [:creditcardaccounts,
                       :bankaccounts
