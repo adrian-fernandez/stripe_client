@@ -72,10 +72,10 @@ module UsersHelper
                 link_to('Download all', download_all_admin_imports_path(type: action.downcase))
               end
             )
-            unless last_import_id.blank?
+            unless last_imports[action_int_value].fetch(:status) == Import.status_value_for?(:deleted)
               concat(
                 content_tag(:li) do
-                  link_to('Clean', admin_imports_path(method: :delete))
+                  link_to('Clean', admin_import_path(last_import_id), method: :delete)
                 end
               )
             end

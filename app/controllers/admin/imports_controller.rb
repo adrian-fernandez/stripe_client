@@ -20,7 +20,6 @@ class Admin::ImportsController < ApplicationController
   end
 
   def destroy
-    clean_import
     @import.clean_elements!
     @import.set_status!(:deleted)
 

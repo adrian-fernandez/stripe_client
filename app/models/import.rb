@@ -38,7 +38,15 @@ class Import < ActiveRecord::Base
     return unless STATUS.keys.include?(new_status)
 
     update_attribute(:status, STATUS[new_status])
-    do_import if new_status == :created
+
+    case new_status
+    when :created
+      do_import
+    when :deleted
+      update_attributes({imported_count: 0,
+                         total_count: 0,
+                         last_id: ''})
+    end
   end
 
   def set_total_count!(value)
