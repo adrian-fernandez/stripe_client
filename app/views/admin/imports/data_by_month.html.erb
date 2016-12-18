@@ -93,5 +93,5 @@
   });
 
   <%= chart('chart-container1', @data, [:num_charges, :num_transfers], 1, 'Year charges & transfers', 'Num', ['Num charges', 'Num transfers'], '') %>
-  <%= chart('chart-container2', @data, [:total_amount, :total_transfers], 100, 'Year charges & transfers amount', 'Num', ['Amount charges', 'Amount transfers'], '') %>
+  <%= chart('chart-container2', @data, [:total_amount, :total_transfers], 100, 'Year charges & transfers amount', 'Num', ['Amount charges', 'Amount transfers'], '€') %>
 </script>

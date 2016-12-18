@@ -60,5 +60,5 @@
 
 <script>
   <%= chart('chart-container1', @data, [:num_charges, :num_transfers], 1, 'Avg. Year summary charges and transfers', 'Num', ['Num charges', 'Num transfers'], '') %>
-  <%= chart('chart-container2', @data, [:total_amount, :total_transfers], 100, 'Avg. Year amount', 'Num', ['Amount charged', 'Amount transfered'], '') %>
+  <%= chart('chart-container2', @data, [:total_amount, :total_transfers], 100, 'Avg. Year amount', 'Num', ['Amount charged', 'Amount transfered'], '€') %>
 </script>
