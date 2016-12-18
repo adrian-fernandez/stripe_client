@@ -48,7 +48,8 @@ module StripeConnectable
   end
 
   def stripe_load_config
-    yaml_config = YAML.load(File.read(File.expand_path('../../config/stripe.yml', __FILE__)))
+    template = ERB.new File.new(File.expand_path('../../config/stripe.yml', __FILE__)).read
+    yaml_config = YAML.load template.result(s)
 
     self._stripe_config ||= {}
     self._stripe_config[:options] = { site: 'https://connect.stripe.com',
@@ -62,8 +63,8 @@ module StripeConnectable
 
   def stripe_connect
     stripe_load_config
-    _stripe_config[:client] ||= OAuth2::Client.new(stripe_config[:client_id],
-                                                   stripe_config[:api_key],
+    _stripe_config[:client] ||= OAuth2::Client.new(ENV.fetch('stripe_api_key'),
+                                                   ENV.fetch('stripe_client_id'),
                                                    stripe_config[:options])
   end
 

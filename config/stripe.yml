@@ -1,2 +1,0 @@
-api_key: <%= ENV.fetch('stripe_api_key') %>
-client_id: <%= ENV.fetch('stripe_client_id') %>
