@@ -14,44 +14,6 @@ module QueryResultByYear
     result = QueryResultByYear.query_transfers(user_id, year, result)
     result = QueryResultByYear.calculate_volatility(result)
 
-    fakeresult = {12=>{
-                        2014=>{
-                                :total_amount=>7022, :num_charges=>2, :total_transfers=>6500, :num_transfers=>4,
-                              },
-                        2015=>{
-                                :total_amount=>10022, :num_charges=>3, :total_transfers=>4000, :num_transfers=>2,
-                                :diff=>{
-                                  :total_amount=>3000, :num_charges=>1, :total_transfers=>-1500, :num_transfers=>-2
-                                }
-                              },
-                        2016=>{
-                                :total_amount=>6022, :num_charges=>5, :total_transfers=>6000, :num_transfers=>2,
-                                :diff=>{
-                                  :total_amount=>-4000, :num_charges=>2, :total_transfers=>2000, :num_transfers=>0
-                                }
-                              },
-                        :total_amount=>23066, :num_charges=>10, :total_transfers=>18500, :num_transfers=>8
-                      },
-                  11=>{
-                        2014=>{
-                                :total_amount=>7000, :num_charges=>5, :total_transfers=>8000, :num_transfers=>3,
-                              },
-                        2015=>{
-                                :total_amount=>10000, :num_charges=>8, :total_transfers=>3000, :num_transfers=>2,
-                                :diff=>{
-                                  :total_amount=>3000, :num_charges=>3, :total_transfers=>-5000, :num_transfers=>-1
-                                }
-                              },
-                        2016=>{
-                                :total_amount=>6000, :num_charges=>2, :total_transfers=>5000, :num_transfers=>1,
-                                :diff=>{
-                                  :total_amount=>-4000, :num_charges=>-6, :total_transfers=>2000, :num_transfers=>-1
-                                }
-                              },
-                        :total_amount=>23000, :num_charges=>15, :total_transfers=>16000, :num_transfers=>6
-                      },
-                      :years=>[2014,2015,2016]}
-
     result
   end
 

@@ -84,6 +84,7 @@ module QueryResultByMonth
                       :years=>[2014,2015,2016]}
 
     result
+    # fakeresult
   end
 
   private

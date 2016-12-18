@@ -49,19 +49,97 @@
   </table>
 <% end %>
 
+
+<div id="chart-container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="chart-container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
 <% content_for :footer do %> 
   <%= link_to 'Back', admin_users_path %>
 <% end %>
 
 <script>
-  $("#update_table").on("click", function(){
-    $(".hideable").hide();
-    years = $("#display_years").val();
+  $(function () {
+      num_charges = [<%= (1..12).map{|month| @data.fetch(month, {}).fetch(:num_charges, 0)}.join(',')%>];
+      num_transfers = [<%= (1..12).map{|month| @data.fetch(month, {}).fetch(:num_transfers, 0)}.join(',')%>];
 
-    for (i=0; i<years.length; i++){
-      visible_year = years[i];
-      console.log(visible_year);
-      $(".hideable[data-year=" + visible_year+"]").show();
-    }
+      Highcharts.chart('chart-container1', {
+          title: {
+              text: 'Avg. Year summary',
+              x: -20 //center
+          },
+          xAxis: {
+              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          },
+          yAxis: {
+              title: {
+                  text: 'Num'
+              },
+              plotLines: [{
+                  value: 0,
+                  width: 1,
+                  color: '#808080'
+              }]
+          },
+          tooltip: {
+              valueSuffix: ''
+          },
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle',
+              borderWidth: 0
+          },
+          series: [{
+              name: 'Num charges',
+              data: num_charges
+          }, {
+              name: 'Num transfers',
+              data: num_transfers
+          }]
+      });
+  });
+
+  $(function () {
+      num_charges = [<%= (1..12).map{|month| @data.fetch(month, {}).fetch(:total_amount, 0) / 100}.join(',')%>];
+      num_transfers = [<%= (1..12).map{|month| @data.fetch(month, {}).fetch(:total_transfers, 0) / 100}.join(',')%>];
+
+      Highcharts.chart('chart-container2', {
+          title: {
+              text: 'Avg. Year summary',
+              x: -20 //center
+          },
+          xAxis: {
+              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          },
+          yAxis: {
+              title: {
+                  text: 'Amount'
+              },
+              plotLines: [{
+                  value: 0,
+                  width: 1,
+                  color: '#808080'
+              }]
+          },
+          tooltip: {
+              valueSuffix: '€'
+          },
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle',
+              borderWidth: 0
+          },
+          series: [{
+              name: 'Amount charged',
+              data: num_charges
+          }, {
+              name: 'Amount transfered',
+              data: num_transfers
+          }]
+      });
   });
 </script>

@@ -47,4 +47,49 @@ module ImportsHelper
 
     errors.blank? ? '' : "<div>#{errors.join('<br/>')}</div>".html_safe
   end
+
+  def chart(container, data, field, field_correction_factor, title, label, legend, sufix)
+    chart_data = []
+    data[:years].each do |year|
+      chart_data << (1..12).map{|month| (data.fetch(month, {}).fetch(year, {}).fetch(field, 0.0).to_f / field_correction_factor)}.join(',')
+    end
+
+    series = []
+    i = 0
+    chart_data.each do |year_data|
+      series << "{ name: '#{legend} #{data[:years][i]}', data: [#{year_data}] }"
+      i += 1
+    end
+
+    "Highcharts.chart('#{container}', {"\
+      "title: {"\
+          "text: '#{title}',"\
+          "x: -20"\
+        "},"\
+          "xAxis: {"\
+              "categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',"\
+                  "'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']"\
+          "},"\
+          "yAxis: {"\
+              "title: {"\
+                  "text: '#{label}'"\
+              "},"\
+              "plotLines: [{"\
+                  "value: 0,"\
+                  "width: 1,"\
+                  "color: '#808080'"\
+              "}]"\
+          "},"\
+          "tooltip: {"\
+              "valueSuffix: '#{sufix}'"\
+          "},"\
+          "legend: {"\
+              "layout: 'vertical',"\
+              "align: 'right',"\
+              "verticalAlign: 'middle',"\
+              "borderWidth: 0"\
+          "},"\
+          "series: [#{series.join(',').html_safe}]"\
+      "});".html_safe
+  end
 end
