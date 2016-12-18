@@ -52,11 +52,10 @@ Rails.application.routes.draw do
 
     resources :users, only: [:index, :show]
 
-    resources :imports, only: [:show] do
+    resources :imports, only: [:show, :destroy] do
       collection do
         get :download
         get :download_all
-        get :clean
         get :data_by_month
         get :averages_year
         get :show_full_data

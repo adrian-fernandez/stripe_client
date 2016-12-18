@@ -75,7 +75,7 @@ module UsersHelper
             unless last_import_id.blank?
               concat(
                 content_tag(:li) do
-                  link_to('Clean', clean_admin_imports_path(type: action.downcase))
+                  link_to('Clean', destroy_admin_imports_path(type: action.downcase))
                 end
               )
             end

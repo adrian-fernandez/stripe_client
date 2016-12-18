@@ -17,7 +17,7 @@ class Admin::ImportsController < ApplicationController
     redirect_to(controller: :users, action: :index)
   end
 
-  def clean
+  def destroy
     clean_import
     import.set_status!(:deleted)
 
