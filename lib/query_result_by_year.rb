@@ -115,7 +115,7 @@ module QueryResultByYear
 
   def self.calculate_volatility(result)
     result.keys.each do |month|
-      result[month][:volatility] = result[month][:total_transfers] * 100.0 / result[month][:total_amount]
+      result[month][:volatility] = result[month].fetch(:total_transfers, 0) * 100.0 / result[month].fetch(:total_amount, 0)
     end
 
     result
