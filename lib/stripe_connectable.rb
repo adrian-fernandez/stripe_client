@@ -52,9 +52,6 @@ module StripeConnectable
     self._stripe_config[:options] = { site: 'https://connect.stripe.com',
                                       authorize_url: '/oauth/authorize',
                                       token_url: '/oauth/token' }
-    self._stripe_config[:client_id] = yaml_config['client_id']
-    self._stripe_config[:api_key] = yaml_config['api_key']
-
     self._stripe_config
   end
 
