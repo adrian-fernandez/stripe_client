@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       collection do
         get :download
         get :download_all
+        get :clean
         get :data_by_month
         get :averages_year
         get :show_full_data

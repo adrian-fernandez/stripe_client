@@ -102,7 +102,8 @@ class Import < ActiveRecord::Base
   STATUS = { created: 0,
              importing: 1,
              done: 2,
-             failed: 3 }.freeze
+             failed: 3,
+             deleted: 4 }.freeze
 
   IMPORTED_TYPE = { charges: 1,
                     transfers: 2,

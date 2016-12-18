@@ -11,10 +11,15 @@ class Admin::ImportsController < ApplicationController
   end
 
   def download_all
-    import = Import.find_or_create_by(imported_type: Import.imported_type_value_for?(import_params[:type].to_sym),
-                                      user_id: current_user.id)
-    import.clean_elements!
+    clean_import
     import.set_status!(:created)
+
+    redirect_to(controller: :users, action: :index)
+  end
+
+  def clean
+    clean_import
+    import.set_status!(:deleted)
 
     redirect_to(controller: :users, action: :index)
   end
@@ -51,6 +56,12 @@ class Admin::ImportsController < ApplicationController
   end
 
   private
+
+  def clean_import
+    import = Import.find_or_create_by(imported_type: Import.imported_type_value_for?(import_params[:type].to_sym),
+                                      user_id: current_user.id)
+    import.clean_elements!
+  end
 
   def set_import
     @import = Import.find_by_id(params[:id])
